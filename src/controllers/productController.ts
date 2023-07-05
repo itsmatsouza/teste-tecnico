@@ -9,7 +9,11 @@ export const productController = {
         
         const product = await Product.findByPk(id)
 
-        return res.status(200).json(product)
+        return res.status(200).json({
+          product: product,
+          feePrice: product!.price / product!.fee,
+          finalPrice: product!.price - (product!.price*(product!.fee / 100))
+        })
     },
     
     // POST /product/create
@@ -29,7 +33,11 @@ export const productController = {
               fee
             })
 
-            return res.status(201).json(product)
+            return res.status(201).json({
+              product: product,
+              feePrice: product!.price / product!.fee,
+              finalPrice: product!.price - (product!.price*(product!.fee / 100))
+            })
 
         } catch (err) {
             if (err instanceof Error) {
@@ -50,7 +58,11 @@ export const productController = {
               fee
             })
 
-            return res.json(updatedProduct)
+            return res.json({
+              product: updatedProduct,
+              feePrice: updatedProduct[0].price / updatedProduct[0].fee,
+              finalPrice: updatedProduct[0].price - (updatedProduct[0].price*(updatedProduct[0].fee / 100))
+            })
             
         } catch (err) {
             if (err instanceof Error) {
@@ -74,5 +86,5 @@ export const productController = {
                 return res.status(400).json({ message: err.message });
             }
         }
-    }    
+    },
 }
