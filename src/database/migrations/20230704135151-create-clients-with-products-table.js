@@ -8,22 +8,22 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.DataTypes.INTEGER,
         references: {
-          model: 'clients', 
-          key: 'id'
+          model: "clients",
+          key: "id",
         },
-        onUpdate : 'CASCADE',
-        onDelete: 'CASCADE'
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
       product_id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.DataTypes.INTEGER,
         references: {
-          model: 'products', 
-          key: 'id'
+          model: "products",
+          key: "id",
         },
-        onUpdate : 'CASCADE',
-        onDelete: 'CASCADE'
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
       created_at: {
         allowNull: false,

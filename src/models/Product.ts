@@ -15,31 +15,28 @@ export interface ProductInstance
   extends Model<Product, ProductCreationAttributes>,
     Product {}
 
-export const Product = sequelize.define<ProductInstance, Product>(
-  "Product",
-  {
-    id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER,
-      },
-      code: {
-        allowNull: false,
-        unique: true,
-        type: DataTypes.STRING(15)
-      },
-      description: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
-      price: {
-        allowNull: false,
-        type: DataTypes.DECIMAL,
-      },
-      fee: {
-        allowNull: false,
-        type: DataTypes.DECIMAL,
-      },
-  }
-);
+export const Product = sequelize.define<ProductInstance, Product>("Product", {
+  id: {
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+    type: DataTypes.INTEGER,
+  },
+  code: {
+    allowNull: false,
+    unique: true,
+    type: DataTypes.STRING(15),
+  },
+  description: {
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
+  price: {
+    allowNull: false,
+    type: DataTypes.DECIMAL,
+  },
+  fee: {
+    allowNull: false,
+    type: DataTypes.DECIMAL,
+  },
+});

@@ -1,98 +1,100 @@
-import { Request, Response } from "express"
+import { Request, Response } from "express";
 import { productService } from "../services/productService";
 import { Product } from "../models/Product";
 import { ClientWithProduct } from "../models/ClientWithProducts";
 
 export const productController = {
-    // GET /product/:id/show
-    show: async (req: Request, res: Response) => {
-        const { id } = req.params
-        
-        const product = await Product.findByPk(id)
+  // GET /product/:id/show
+  show: async (req: Request, res: Response) => {
+    const { id } = req.params;
 
-        const clientWithProducts = await ClientWithProduct.findAll({
-            where: {
-                productId: id
-            }
-        })
+    const product = await Product.findByPk(id);
 
-        return res.status(200).json({
-          product: product,
-          feePrice: product!.price / product!.fee,
-          finalPrice: product!.price - (product!.price*(product!.fee / 100)),
-          clients: clientWithProducts
-        })
-    },
-    
-    // POST /product/create
-    create: async (req: Request, res: Response) => {
-        const {
-            code,
-            description,
-            price,
-            fee
-        } = req.body
+    const clientWithProducts = await ClientWithProduct.findAll({
+      where: {
+        productId: id,
+      },
+    });
 
-        try {
-            const product = await productService.create({
-              code,
-              description,
-              price,
-              fee
-            })
+    return res.status(200).json({
+      product: product,
+      feePrice:
+        product!.price -
+        (product!.price - product!.price * (product!.fee / 100)),
+      finalPrice: product!.price - product!.price * (product!.fee / 100),
+      clients: clientWithProducts,
+    });
+  },
 
-            return res.status(201).json({
-              product: product,
-              feePrice: product!.price / product!.fee,
-              finalPrice: product!.price - (product!.price*(product!.fee / 100))
-            })
+  // POST /product/create
+  create: async (req: Request, res: Response) => {
+    const { code, description, price, fee } = req.body;
 
-        } catch (err) {
-            if (err instanceof Error) {
-                return res.status(400).json({ message: err.message });
-            }
-        }
-    },
+    try {
+      const product = await productService.create({
+        code,
+        description,
+        price,
+        fee,
+      });
 
-    // PUT /product/:id/update
-    update: async (req: Request, res: Response) => {
-        const { id } = req.params
-        const { description, price, fee } = req.body
+      return res.status(201).json({
+        product: product,
+        feePrice:
+          product!.price -
+          (product!.price - product!.price * (product!.fee / 100)),
+        finalPrice: product!.price - product!.price * (product!.fee / 100),
+      });
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ message: err.message });
+      }
+    }
+  },
 
-        try {
-            const updatedProduct = await productService.update(Number(id), {
-              description,
-              price,
-              fee
-            })
+  // PUT /product/:id/update
+  update: async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { description, price, fee } = req.body;
 
-            return res.json({
-              product: updatedProduct,
-              feePrice: updatedProduct[0].price / updatedProduct[0].fee,
-              finalPrice: updatedProduct[0].price - (updatedProduct[0].price*(updatedProduct[0].fee / 100))
-            })
-            
-        } catch (err) {
-            if (err instanceof Error) {
-                return res.status(400).json({ message: err.message });
-            }
-        }
-    },
+    try {
+      const updatedProduct = await productService.update(Number(id), {
+        description,
+        price,
+        fee,
+      });
 
-    // DELETE /product/:id/delete
-    delete: async (req: Request, res: Response) => {
-        const { id } = req.params
-        
-        const product = await productService.findProduct(Number(id))
+      return res.json({
+        product: updatedProduct,
+        feePrice:
+          updatedProduct[0].price -
+          (updatedProduct[0].price -
+            updatedProduct[0].price * (updatedProduct[0].fee / 100)),
+        finalPrice:
+          updatedProduct[0].price -
+          updatedProduct[0].price * (updatedProduct[0].fee / 100),
+      });
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ message: err.message });
+      }
+    }
+  },
 
-        try {
-            product.destroy()
+  // DELETE /product/:id/delete
+  delete: async (req: Request, res: Response) => {
+    const { id } = req.params;
 
-            return res.status(200).json("Produto Apagado com Sucesso!")
-        } catch (err) {
-            if (err instanceof Error) {
-                return res.status(400).json({ message: err.message });
-            }
-        }
-    },
-}
+    const product = await productService.findProduct(Number(id));
+
+    try {
+      product.destroy();
+
+      return res.status(200).json("Produto Apagado com Sucesso!");
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ message: err.message });
+      }
+    }
+  },
+};
