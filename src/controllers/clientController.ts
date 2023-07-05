@@ -44,7 +44,25 @@ export const clientController = {
 
     // PUT /clients/:id/update
     update: async (req: Request, res: Response) => {
-        
+        const { id } = req.params
+        const { name, legalEntity, cnpj, state, birth } = req.body
+
+        try {
+            const updatedClient = await clientService.update(Number(id), {
+                name,
+                legalEntity,
+                cnpj,
+                state,
+                birth
+            })
+
+            return res.json(updatedClient)
+            
+        } catch (err) {
+            if (err instanceof Error) {
+                return res.status(400).json({ message: err.message });
+            }
+        }
     },
 
     // DELETE /clients/:id/delete

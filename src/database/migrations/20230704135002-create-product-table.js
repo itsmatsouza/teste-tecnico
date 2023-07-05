@@ -11,6 +11,7 @@ module.exports = {
       },
       code: {
         allowNull: false,
+        unique: true,
         type: Sequelize.DataTypes.STRING(15)
       },
       description: {
@@ -19,11 +20,11 @@ module.exports = {
       },
       price: {
         allowNull: false,
-        type: Sequelize.DataTypes.INTEGER(10,2),
+        type: Sequelize.DataTypes.INTEGER,
       },
       fee: {
         allowNull: false,
-        type: Sequelize.DataTypes.INTEGER(10,2),
+        type: Sequelize.DataTypes.INTEGER,
       },
       created_at: {
         allowNull: false,

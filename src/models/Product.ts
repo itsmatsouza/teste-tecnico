@@ -26,6 +26,7 @@ export const Product = sequelize.define<ProductInstance, Product>(
       },
       code: {
         allowNull: false,
+        unique: true,
         type: DataTypes.STRING(15)
       },
       description: {
