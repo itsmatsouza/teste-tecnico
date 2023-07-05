@@ -23,8 +23,12 @@ module.exports = {
         type: Sequelize.DataTypes.STRING(1),
       },
       cnpj: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DataTypes.STRING(14),
+      },
+      cpf: {
+        allowNull: true,
+        type: Sequelize.DataTypes.STRING(11),
       },
       state: {
         allowNull: false,

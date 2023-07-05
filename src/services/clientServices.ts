@@ -11,6 +11,7 @@ export const clientService = {
         name: string,
         legalEntity: "J" | "F" | "O",
         cnpj: string,
+        cpf: string,
         state: string,
         birth: string,
     }) => {

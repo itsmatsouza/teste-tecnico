@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import { productService } from "../services/productService";
 import { Product } from "../models/Product";
+import { ClientWithProduct } from "../models/ClientWithProducts";
 
 export const productController = {
     // GET /product/:id/show
@@ -9,10 +10,17 @@ export const productController = {
         
         const product = await Product.findByPk(id)
 
+        const clientWithProducts = await ClientWithProduct.findAll({
+            where: {
+                productId: id
+            }
+        })
+
         return res.status(200).json({
           product: product,
           feePrice: product!.price / product!.fee,
-          finalPrice: product!.price - (product!.price*(product!.fee / 100))
+          finalPrice: product!.price - (product!.price*(product!.fee / 100)),
+          clients: clientWithProducts
         })
     },
     

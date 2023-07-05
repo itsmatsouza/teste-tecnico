@@ -7,6 +7,7 @@ export interface Client {
   name: string;
   legalEntity: "J" | "F" | "O";
   cnpj: string;
+  cpf: string
   state: string;
   birth: string;
 }
@@ -43,8 +44,12 @@ export const Client = sequelize.define<ClientInstance, Client>(
           },
       },
       cnpj: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.STRING(14),
+      },
+      cpf: {
+        allowNull: true,
+        type: DataTypes.STRING(11),
       },
       state: {
         allowNull: false,
@@ -54,5 +59,15 @@ export const Client = sequelize.define<ClientInstance, Client>(
         allowNull: false,
         type: DataTypes.STRING(8),
       },
+  }, {
+    hooks: {
+      beforeSave: async (client) => {
+        if (client.legalEntity === "J") {
+          if (client.cnpj === "") throw new Error('CNPJ precisa estar preenchido para usuarios PJ')
+        } else if(client.legalEntity === "F") {
+          if (client.cnpj === "") throw new Error('CPF precisa estar preenchido para usuarios PF')
+        }
+      }
+    }
   }
 );

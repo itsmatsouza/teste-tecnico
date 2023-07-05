@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import { clientService } from "../services/clientServices";
 import { Client } from "../models/Client";
+import { ClientWithProduct } from "../models/ClientWithProducts";
 
 export const clientController = {
     // GET /clients/:id/show
@@ -9,7 +10,16 @@ export const clientController = {
         
         const client = await Client.findByPk(id)
 
-        return res.status(200).json(client)
+        const clientWithProducts = await ClientWithProduct.findAll({
+            where: {
+                clientId: id
+            }
+        })
+
+        return res.status(200).json({
+            client: client,
+            products: clientWithProducts
+        })
     },
     
     // POST /clients/create
@@ -19,6 +29,7 @@ export const clientController = {
             name,
             legalEntity,
             cnpj,
+            cpf,
             state,
             birth
         } = req.body
@@ -29,6 +40,7 @@ export const clientController = {
                 name,
                 legalEntity,
                 cnpj,
+                cpf,
                 state,
                 birth
             })
@@ -45,13 +57,14 @@ export const clientController = {
     // PUT /clients/:id/update
     update: async (req: Request, res: Response) => {
         const { id } = req.params
-        const { name, legalEntity, cnpj, state, birth } = req.body
+        const { name, legalEntity, cnpj, cpf, state, birth } = req.body
 
         try {
             const updatedClient = await clientService.update(Number(id), {
                 name,
                 legalEntity,
                 cnpj,
+                cpf,
                 state,
                 birth
             })
