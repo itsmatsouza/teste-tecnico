@@ -35,11 +35,11 @@ export const Product = sequelize.define<ProductInstance, Product>(
       },
       price: {
         allowNull: false,
-        type: DataTypes.INTEGER({decimals: 2}),
+        type: DataTypes.DECIMAL,
       },
       fee: {
         allowNull: false,
-        type: DataTypes.INTEGER({decimals: 2}),
+        type: DataTypes.DECIMAL,
       },
   }
 );

@@ -1,6 +1,6 @@
-    import { Client, ClientCreationAttributes } from "../models/Client";
+import { Client, ClientCreationAttributes } from "../models/Client";
 
-    export const clientService = {
+export const clientService = {
     create: async (attributes: ClientCreationAttributes) => {
         const client = await Client.create(attributes)
 
@@ -31,4 +31,4 @@
 
         return client
     }
-    }
+}

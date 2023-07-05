@@ -20,11 +20,11 @@ module.exports = {
       },
       price: {
         allowNull: false,
-        type: Sequelize.DataTypes.INTEGER,
+        type: Sequelize.DataTypes.DECIMAL,
       },
       fee: {
         allowNull: false,
-        type: Sequelize.DataTypes.INTEGER,
+        type: Sequelize.DataTypes.DECIMAL,
       },
       created_at: {
         allowNull: false,
